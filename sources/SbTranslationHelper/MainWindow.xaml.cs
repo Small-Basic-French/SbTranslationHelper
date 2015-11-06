@@ -26,10 +26,12 @@ namespace SbTranslationHelper
             this.Loaded += MainWindow_Loaded;
         }
 
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // Initialize the ViewModel
             ViewModel.Initialize();
+            // Load the data
+            await ViewModel.Load();
         }
 
         /// <summary>

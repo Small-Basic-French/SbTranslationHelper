@@ -32,12 +32,43 @@ namespace SbTranslationHelper.ViewModels
         }
 
         /// <summary>
+        /// Load the data from the current folder
+        /// </summary>
+        /// <returns></returns>
+        public async Task<bool> Load()
+        {
+            if (!Directory.Exists(SmallBasicFolder))
+                return false;
+            if (Loading) return false;
+            try {
+                Loading = true;
+                // TODO To remove
+                await Task.Delay(2000);
+                return true;
+            }
+            finally
+            {
+                Loading = false;
+            }
+        }
+
+        /// <summary>
+        /// Indicates if the model is loading data
+        /// </summary>
+        public bool Loading
+        {
+            get { return _Loading; }
+            private set { SetProperty(ref _Loading, value, () => Loading); }
+        }
+        private bool _Loading = false;
+
+        /// <summary>
         /// Folder where Small Basic is find
         /// </summary>
         public String SmallBasicFolder
         {
             get { return _SmallBasicFolder; }
-            set { SetProperty(ref _SmallBasicFolder, value, () => SmallBasicFolder); }
+            private set { SetProperty(ref _SmallBasicFolder, value, () => SmallBasicFolder); }
         }
         private String _SmallBasicFolder;
 
