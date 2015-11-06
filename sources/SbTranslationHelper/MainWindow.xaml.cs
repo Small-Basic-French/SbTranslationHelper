@@ -23,6 +23,18 @@ namespace SbTranslationHelper
         public MainWindow()
         {
             InitializeComponent();
+            this.Loaded += MainWindow_Loaded;
         }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Initialize the ViewModel
+            ViewModel.Initialize();
+        }
+
+        /// <summary>
+        /// Current ViewModel
+        /// </summary>
+        public ViewModels.AppViewModel ViewModel { get { return (ViewModels.AppViewModel)DataContext; } }
     }
 }

@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:SbTranslationHelper"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+         <local:ServiceLocator x:Key="Locator" />
     </Application.Resources>
 </Application>
