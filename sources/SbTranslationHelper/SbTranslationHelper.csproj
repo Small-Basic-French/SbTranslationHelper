@@ -62,6 +62,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Common\ObservableObject.cs" />
+    <Compile Include="Common\RelayCommandGeneric.cs" />
+    <Compile Include="Common\RelayCommand.cs" />
+    <Compile Include="Extensions\PropertyExtensions.cs" />
     <Compile Include="Locales\SR.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
