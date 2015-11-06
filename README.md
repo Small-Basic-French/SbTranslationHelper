@@ -1,2 +1,4 @@
 # SbTranslationHelper
-A tool for help to translate Small Basic files
+
+A tool for help to translate Small Basic files.
+
