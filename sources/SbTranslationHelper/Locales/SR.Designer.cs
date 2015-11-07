@@ -79,6 +79,15 @@ namespace SbTranslationHelper.Locales {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Close the current project (Ctrl+F4).
+        /// </summary>
+        public static string CloseProject_Tooltip {
+            get {
+                return ResourceManager.GetString("CloseProject_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Open the project folder.
         /// </summary>
         public static string FolderBrowser_OpenProjectFolder_Title {
@@ -93,6 +102,42 @@ namespace SbTranslationHelper.Locales {
         public static string Open_Caption {
             get {
                 return ResourceManager.GetString("Open_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Open a folder project (Ctrl+O).
+        /// </summary>
+        public static string OpenProject_Tooltip {
+            get {
+                return ResourceManager.GetString("OpenProject_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Extension {0}.
+        /// </summary>
+        public static string TransGroup_Extension_Caption {
+            get {
+                return ResourceManager.GetString("TransGroup_Extension_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Small Basic.
+        /// </summary>
+        public static string TransGroup_SmallBasic_Caption {
+            get {
+                return ResourceManager.GetString("TransGroup_SmallBasic_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Small Basic Library.
+        /// </summary>
+        public static string TransGroup_SmallBasicLibrary_Caption {
+            get {
+                return ResourceManager.GetString("TransGroup_SmallBasicLibrary_Caption", resourceCulture);
             }
         }
     }

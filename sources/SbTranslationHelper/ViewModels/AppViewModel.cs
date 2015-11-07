@@ -26,11 +26,11 @@ namespace SbTranslationHelper.ViewModels
 
             OpenProjectFolderCommand = new RelayCommand(
                 async () => await OpenProjectAsync(),
-                () => !Loading && !ProjectFolderOpened
+                () => !Loading && !ProjectOpened
                 );
             CloseProjectFolderCommand = new RelayCommand(
                 async () => await CloseProjectAsync(),
-                () => !Loading && ProjectFolderOpened
+                () => !Loading && ProjectOpened
                 );
         }
 
@@ -63,6 +63,8 @@ namespace SbTranslationHelper.ViewModels
             try
             {
                 Loading = true;
+                Project = new ProjectViewModel();
+                await Project.LoadProject(ProjectFolder);
                 // TODO To remove
                 await Task.Delay(2000);
                 return true;
@@ -83,7 +85,7 @@ namespace SbTranslationHelper.ViewModels
             if (String.IsNullOrWhiteSpace(newFolder))
                 return false;
             // Close the current folder
-            if (ProjectFolderOpened)
+            if (ProjectOpened)
                 await CloseProjectAsync();
             // Load
             ProjectFolder = newFolder;
@@ -96,8 +98,9 @@ namespace SbTranslationHelper.ViewModels
         /// </summary>
         public Task<bool> CloseProjectAsync()
         {
-            if (!ProjectFolderOpened) return Task.FromResult(false);
-            // TODO Save if the folder is dirty
+            if (!ProjectOpened) return Task.FromResult(false);
+            // TODO Save if the project is dirty
+            Project = null;
             ProjectFolder = null;
             return Task.FromResult(true);
         }
@@ -134,17 +137,30 @@ namespace SbTranslationHelper.ViewModels
         public String ProjectFolder
         {
             get { return _ProjectFolder; }
-            private set {
-                if (SetProperty(ref _ProjectFolder, value, () => ProjectFolder))
-                    RaisePropertyChanged(() => ProjectFolderOpened);
-            }
+            private set { SetProperty(ref _ProjectFolder, value, () => ProjectFolder); }
         }
         private String _ProjectFolder;
 
         /// <summary>
-        /// Is the project folder opened
+        /// Project currently open
         /// </summary>
-        public bool ProjectFolderOpened { get { return !String.IsNullOrWhiteSpace(ProjectFolder); } }
+        public ProjectViewModel Project
+        {
+            get { return _Project; }
+            private set
+            {
+                if (SetProperty(ref _Project, value, () => Project))
+                {
+                    RaisePropertyChanged(() => ProjectOpened);
+                }
+            }
+        }
+        private ProjectViewModel _Project;
+
+        /// <summary>
+        /// Is the project opened
+        /// </summary>
+        public bool ProjectOpened { get { return Project != null; } }
 
         /// <summary>
         /// Command to open the project folder

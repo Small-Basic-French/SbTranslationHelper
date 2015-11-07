@@ -121,6 +121,10 @@
     <value>Small Basic Translation Helper</value>
     <comment>Don't translate this.</comment>
   </data>
+  <data name="CloseProject_Tooltip" xml:space="preserve">
+    <value>Close the current project (Ctrl+F4)</value>
+    <comment>Tooltip for the "Close project" UI element</comment>
+  </data>
   <data name="Close_Caption" xml:space="preserve">
     <value>Close</value>
     <comment>Caption for "Close" UI element</comment>
@@ -129,8 +133,24 @@
     <value>Open the project folder</value>
     <comment>Title for the folder browser to open the project folder.</comment>
   </data>
+  <data name="OpenProject_Tooltip" xml:space="preserve">
+    <value>Open a folder project (Ctrl+O)</value>
+    <comment>Tooltip for the "Open project" UI element</comment>
+  </data>
   <data name="Open_Caption" xml:space="preserve">
     <value>Open</value>
     <comment>Caption for "Open" UI element</comment>
+  </data>
+  <data name="TransGroup_Extension_Caption" xml:space="preserve">
+    <value>Extension {0}</value>
+    <comment>Caption for an extension group. {0} is the name of the extension.</comment>
+  </data>
+  <data name="TransGroup_SmallBasicLibrary_Caption" xml:space="preserve">
+    <value>Small Basic Library</value>
+    <comment>Caption for the "SmallBasicLibrary" group</comment>
+  </data>
+  <data name="TransGroup_SmallBasic_Caption" xml:space="preserve">
+    <value>Small Basic</value>
+    <comment>Caption for the "SmallBasic" group</comment>
   </data>
 </root>
