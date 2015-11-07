@@ -97,6 +97,15 @@ namespace SbTranslationHelper.Locales {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à (Neutral).
+        /// </summary>
+        public static string NeutralLanguageFile_Caption {
+            get {
+                return ResourceManager.GetString("NeutralLanguageFile_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Open.
         /// </summary>
         public static string Open_Caption {
@@ -138,6 +147,15 @@ namespace SbTranslationHelper.Locales {
         public static string TransGroup_SmallBasicLibrary_Caption {
             get {
                 return ResourceManager.GetString("TransGroup_SmallBasicLibrary_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Unknown language : {0}.
+        /// </summary>
+        public static string UnknownLanguageFile_Caption {
+            get {
+                return ResourceManager.GetString("UnknownLanguageFile_Caption", resourceCulture);
             }
         }
     }

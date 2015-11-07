@@ -28,8 +28,21 @@ namespace SbTranslationHelper.Model
             Language = Path.GetExtension(FileName);
             if (!String.IsNullOrWhiteSpace(Language) && Language.StartsWith("."))
             {
-                Language = Language.Substring(1);
-                FileName = Path.GetFileNameWithoutExtension(FileName);
+                // Search a culture to be sure
+                try
+                {
+                    var ci = System.Globalization.CultureInfo.GetCultureInfo(Language.Substring(1));
+                    if (ci != null)
+                    {
+                        Language = Language.Substring(1);
+                        FileName = Path.GetFileNameWithoutExtension(FileName);
+                    }
+                    else
+                    {
+                        Language = null;
+                    }
+                }
+                catch { Language = null; }
             }
             else
             {

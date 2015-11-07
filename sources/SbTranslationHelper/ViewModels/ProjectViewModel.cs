@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,30 @@ namespace SbTranslationHelper.ViewModels
         public ProjectViewModel()
         {
             Project = new Model.TranslationProject();
+            Groups = new ObservableCollection<GroupViewModel>();
+        }
+
+        /// <summary>
+        /// Update the data in the viewmodels
+        /// </summary>
+        void UpdateProjectData()
+        {
+            var vmGrps = Groups.ToList();
+            foreach (var group in Project.Groups)
+            {
+                var vmGrp = vmGrps.FirstOrDefault(g => String.Equals(g.Name, group.Name, StringComparison.OrdinalIgnoreCase));
+                if (vmGrp == null)
+                {
+                    vmGrp = new GroupViewModel(group.Name);
+                    Groups.Add(vmGrp);
+                }
+                vmGrp.Caption = group.Caption;
+                vmGrp.UpdateFiles(group.Files);
+                vmGrps.Remove(vmGrp);
+            }
+            // Remove the viewmodel groups not found in the project data
+            foreach (var grp in vmGrps)
+                Groups.Remove(grp);
         }
 
         /// <summary>
@@ -30,6 +55,7 @@ namespace SbTranslationHelper.ViewModels
             {
                 Loading = true;
                 await Task.Run(() => Project.ScanFolder(folder));
+                UpdateProjectData();
             }
             finally
             {
@@ -52,6 +78,11 @@ namespace SbTranslationHelper.ViewModels
             private set { SetProperty(ref _Loading, value, () => Loading); }
         }
         private bool _Loading = false;
+
+        /// <summary>
+        /// List of the groups
+        /// </summary>
+        public ObservableCollection<GroupViewModel> Groups { get; private set; }
 
     }
 

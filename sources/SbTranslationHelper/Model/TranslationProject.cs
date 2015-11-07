@@ -92,6 +92,9 @@ namespace SbTranslationHelper.Model
                 // Exclude known DLL
                 if (String.Equals("SmallBasicLibrary", dllTf.FileName, StringComparison.OrdinalIgnoreCase))
                     continue;
+                // Check the the neutral XML file exists
+                if (!File.Exists(dllFile.Substring(0, dllFile.Length - 4) + ".xml"))
+                    continue;
                 // Search XML files for this DLL
                 var files = Directory.GetFiles(folder, dllTf.FileName + "*.xml", SearchOption.TopDirectoryOnly);
                 if (files.Length == 0) continue;

@@ -133,6 +133,10 @@
     <value>Open the project folder</value>
     <comment>Title for the folder browser to open the project folder.</comment>
   </data>
+  <data name="NeutralLanguageFile_Caption" xml:space="preserve">
+    <value>(Neutral)</value>
+    <comment>Caption for the neutral file</comment>
+  </data>
   <data name="OpenProject_Tooltip" xml:space="preserve">
     <value>Open a folder project (Ctrl+O)</value>
     <comment>Tooltip for the "Open project" UI element</comment>
@@ -152,5 +156,9 @@
   <data name="TransGroup_SmallBasic_Caption" xml:space="preserve">
     <value>Small Basic</value>
     <comment>Caption for the "SmallBasic" group</comment>
+  </data>
+  <data name="UnknownLanguageFile_Caption" xml:space="preserve">
+    <value>Unknown language : {0}</value>
+    <comment>Caption for the unknown language file. {0} is the language code.</comment>
   </data>
 </root>

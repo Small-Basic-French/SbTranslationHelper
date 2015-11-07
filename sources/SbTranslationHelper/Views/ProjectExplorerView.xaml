@@ -4,7 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SbTranslationHelper.Views"
+             xmlns:vm="clr-namespace:SbTranslationHelper.ViewModels"
+             xmlns:dt="clr-namespace:SbTranslationHelper.ViewModels.DesignTime"
              mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=dt:DtProjectViewModel, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="202.266">
     <Grid>
         <Grid.RowDefinitions>
@@ -12,8 +15,27 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Label Content="Project"/>
-        <HeaderedItemsControl Grid.Row="1">
-            
-        </HeaderedItemsControl>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding Groups}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="{Binding Caption}" Background="AliceBlue" />
+                            <ItemsControl Grid.Row="1" ItemsSource="{Binding Files}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Caption}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </UserControl>
