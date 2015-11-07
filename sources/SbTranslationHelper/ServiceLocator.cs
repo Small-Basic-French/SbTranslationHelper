@@ -17,12 +17,20 @@ namespace SbTranslationHelper
         /// </summary>
         public ServiceLocator()
         {
-            AppViewModel = new ViewModels.AppViewModel();
+            AppService = new Services.AppService();
+
+            AppViewModel = new ViewModels.AppViewModel(AppService);
         }
+
+        /// <summary>
+        /// Application service
+        /// </summary>
+        public Services.IAppService AppService { get; private set; }
 
         /// <summary>
         /// Global AppViewModel
         /// </summary>
         public ViewModels.AppViewModel AppViewModel { get; private set; }
+
     }
 }

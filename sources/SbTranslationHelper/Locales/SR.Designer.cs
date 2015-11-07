@@ -68,5 +68,32 @@ namespace SbTranslationHelper.Locales {
                 return ResourceManager.GetString("ApplicationName", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Close.
+        /// </summary>
+        public static string Close_Caption {
+            get {
+                return ResourceManager.GetString("Close_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Open the project folder.
+        /// </summary>
+        public static string FolderBrowser_OpenProjectFolder_Title {
+            get {
+                return ResourceManager.GetString("FolderBrowser_OpenProjectFolder_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Open.
+        /// </summary>
+        public static string Open_Caption {
+            get {
+                return ResourceManager.GetString("Open_Caption", resourceCulture);
+            }
+        }
     }
 }

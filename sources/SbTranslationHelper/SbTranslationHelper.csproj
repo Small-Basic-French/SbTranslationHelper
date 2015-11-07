@@ -55,7 +55,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Model\TranslationProject.cs" />
     <Compile Include="ServiceLocator.cs" />
+    <Compile Include="Services\AppService.cs" />
+    <Compile Include="Services\IAppService.cs" />
+    <Compile Include="Utils\FolderBrowserDialog.cs" />
     <Compile Include="ViewModels\AppViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
