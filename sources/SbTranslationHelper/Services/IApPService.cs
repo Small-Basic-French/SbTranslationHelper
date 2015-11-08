@@ -18,6 +18,11 @@ namespace SbTranslationHelper.Services
         /// <param name="title">Title of the browser</param>
         /// <returns>The selected folder or null if canceled</returns>
         Task<String> OpenFolderBrowserAsync(String title);
+
+        /// <summary>
+        /// Display an exception message
+        /// </summary>
+        Task ShowError(Exception ex, String title = null);
     }
 
 }

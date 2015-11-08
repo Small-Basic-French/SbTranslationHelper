@@ -63,7 +63,7 @@ namespace SbTranslationHelper.ViewModels
             try
             {
                 Loading = true;
-                Project = new ProjectViewModel();
+                Project = new ProjectViewModel(this._AppService);
                 await Project.LoadProject(ProjectFolder);
                 // TODO To remove
                 await Task.Delay(2000);

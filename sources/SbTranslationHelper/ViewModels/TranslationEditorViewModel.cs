@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace SbTranslationHelper.ViewModels
         /// <param name="file"></param>
         public TranslationEditorViewModel(TranslationFileViewModel file)
         {
+            this.Translations = new ObservableCollection<TranslationViewModel>();
             this.File = file;
         }
 
@@ -30,8 +32,26 @@ namespace SbTranslationHelper.ViewModels
             IsBusy = true;
             try
             {
-                // TODO Load data
-                await Task.Delay(100);
+                Translations.Clear();
+                var grp = this.File.Group.Project.Project.FindGroup(this.File.Group.Name);
+                if (grp != null)
+                {
+                    var translations = await Task.Run(() =>
+                    {
+                        return grp.ReadFile(this.File.File.File).ToList();
+                    });
+                    foreach (var trans in translations)
+                    {
+                        this.Translations.Add(new TranslationViewModel
+                        {
+                            ReferenceGroup = trans.ReferenceGroup,
+                            ReferenceCode = trans.ReferenceCode,
+                            Description = trans.Description,
+                            NeutralValue = trans.NeutralValue,
+                            TranslatedValue = trans.Translation
+                        });
+                    }
+                }
             }
             finally
             {
@@ -53,6 +73,21 @@ namespace SbTranslationHelper.ViewModels
             private set { SetProperty(ref _IsBusy, value, () => IsBusy); }
         }
         private bool _IsBusy = false;
+
+        /// <summary>
+        /// Translations
+        /// </summary>
+        public ObservableCollection<TranslationViewModel> Translations { get; private set; }
+
+        /// <summary>
+        /// Translation currently editing
+        /// </summary>
+        public TranslationViewModel CurrentTranslation
+        {
+            get { return _CurrentTranslation; }
+            set { SetProperty(ref _CurrentTranslation, value, () => CurrentTranslation); }
+        }
+        private TranslationViewModel _CurrentTranslation;
 
     }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SbTranslationHelper.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -13,16 +14,31 @@ namespace SbTranslationHelper.ViewModels
     /// </summary>
     public class ProjectViewModel : ObservableObject
     {
+        IAppService _AppService;
+
         /// <summary>
         /// Create a new project
         /// </summary>
-        public ProjectViewModel()
+        public ProjectViewModel(IAppService appService)
         {
+            this._AppService = appService;
             Project = new Model.TranslationProject();
             Groups = new ObservableCollection<GroupViewModel>();
             Editors = new ObservableCollection<TranslationEditorViewModel>();
             OpenTranslationCommand = new RelayCommand<TranslationFileViewModel>(
-                async file => await OpenTranslation(file),
+                async file => {
+                    Exception error = null;
+                    try
+                    {
+                        await OpenTranslation(file);
+                    }
+                    catch (Exception ex)
+                    {
+                        error = ex;
+                    }
+                    if (error != null)
+                        await _AppService.ShowError(error);
+                },
                 file => file != null
                 );
         }

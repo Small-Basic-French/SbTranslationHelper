@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SbTranslationHelper.Services
 {
@@ -27,6 +28,16 @@ namespace SbTranslationHelper.Services
                 return Task.FromResult(dlg.SelectedPath);
             }
             return Task.FromResult<String>(null);
+        }
+
+
+        /// <summary>
+        /// Display an exception message
+        /// </summary>
+        public Task ShowError(Exception ex, String title = null)
+        {
+            MessageBox.Show(ex.GetBaseException().Message, title ?? Locales.SR.ShowError_DefaultTitle);
+            return Task.FromResult(true);
         }
 
     }

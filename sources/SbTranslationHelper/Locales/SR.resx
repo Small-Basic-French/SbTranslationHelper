@@ -129,6 +129,22 @@
     <value>Close</value>
     <comment>Caption for "Close" UI element</comment>
   </data>
+  <data name="Error_CantReadFileType" xml:space="preserve">
+    <value>Can't read '{0}' file type.</value>
+    <comment>Error when loading a file not supported by the project.</comment>
+  </data>
+  <data name="Error_FileNotFoundInGroup" xml:space="preserve">
+    <value>File not found in the group.</value>
+    <comment>Error when a file is not find in a group.</comment>
+  </data>
+  <data name="Error_Project_InvalidResourceFile" xml:space="preserve">
+    <value>The file is an invalid resource file.</value>
+    <comment>Error when we try to load a resource file wich not contains correct tag.</comment>
+  </data>
+  <data name="Error_Project_InvalidXmlDocFile" xml:space="preserve">
+    <value>The file is an XmlDoc resource file.</value>
+    <comment>Error when we try to load a XmlDoc file wich not contains correct tag.</comment>
+  </data>
   <data name="FolderBrowser_OpenProjectFolder_Title" xml:space="preserve">
     <value>Open the project folder</value>
     <comment>Title for the folder browser to open the project folder.</comment>
@@ -148,6 +164,10 @@
   <data name="ProjectExplorer_Caption" xml:space="preserve">
     <value>Project</value>
     <comment>Caption for the project explorer</comment>
+  </data>
+  <data name="ShowError_DefaultTitle" xml:space="preserve">
+    <value>Error</value>
+    <comment>Default title for the ShowError dialog.</comment>
   </data>
   <data name="TransGroup_Extension_Caption" xml:space="preserve">
     <value>Extension {0}</value>

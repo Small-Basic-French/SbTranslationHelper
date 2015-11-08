@@ -88,6 +88,42 @@ namespace SbTranslationHelper.Locales {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Can&apos;t read &apos;{0}&apos; file type..
+        /// </summary>
+        public static string Error_CantReadFileType {
+            get {
+                return ResourceManager.GetString("Error_CantReadFileType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à File not found in the group..
+        /// </summary>
+        public static string Error_FileNotFoundInGroup {
+            get {
+                return ResourceManager.GetString("Error_FileNotFoundInGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The file is an invalid resource file..
+        /// </summary>
+        public static string Error_Project_InvalidResourceFile {
+            get {
+                return ResourceManager.GetString("Error_Project_InvalidResourceFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The file is an XmlDoc resource file..
+        /// </summary>
+        public static string Error_Project_InvalidXmlDocFile {
+            get {
+                return ResourceManager.GetString("Error_Project_InvalidXmlDocFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Open the project folder.
         /// </summary>
         public static string FolderBrowser_OpenProjectFolder_Title {
@@ -129,6 +165,15 @@ namespace SbTranslationHelper.Locales {
         public static string ProjectExplorer_Caption {
             get {
                 return ResourceManager.GetString("ProjectExplorer_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Error.
+        /// </summary>
+        public static string ShowError_DefaultTitle {
+            get {
+                return ResourceManager.GetString("ShowError_DefaultTitle", resourceCulture);
             }
         }
         

@@ -1,16 +1,98 @@
-﻿<UserControl x:Class="SbTranslationHelper.Views.TranslationEditorView"
+﻿<UserControl
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SbTranslationHelper.Views"
              xmlns:dt="clr-namespace:SbTranslationHelper.ViewModels.DesignTime"
+             xmlns:ComponentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase" x:Class="SbTranslationHelper.Views.TranslationEditorView"
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance Type=dt:DtTranslationEditorViewModel, IsDesignTimeCreatable=True}"
+             d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type dt:DtTranslationEditorViewModel}}"
              d:DesignHeight="300" d:DesignWidth="495.467">
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="GroupedTranslations" Source="{Binding Translations}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="ReferenceGroup"/>
+            </CollectionViewSource.GroupDescriptions>
+            <!--<CollectionViewSource.SortDescriptions>
+                <ComponentModel:SortDescription Direction="Ascending" PropertyName="ReferenceGroup"/>
+                <ComponentModel:SortDescription Direction="Ascending" PropertyName="ReferenceCode"/>
+            </CollectionViewSource.SortDescriptions>-->
+        </CollectionViewSource>
+    </UserControl.Resources>
     <Grid>
-        <DataGrid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <DataGrid 
+            ItemsSource="{Binding Source={StaticResource GroupedTranslations}}" 
+            SelectedItem="{Binding CurrentTranslation, Mode=TwoWay}"
+            AutoGenerateColumns="False" 
+            CanUserAddRows="False" 
+            CanUserResizeRows="False" 
+            CanUserReorderColumns="False"
+            EnableColumnVirtualization="True"
+            EnableRowVirtualization="True"
+            VirtualizingPanel.IsVirtualizingWhenGrouping="True" 
+            RowDetailsVisibilityMode="Collapsed" 
+            SelectionMode="Single"
+            >
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding ReferenceCode}" Header="Reference" IsReadOnly="True" />
+                <DataGridTextColumn Binding="{Binding NeutralValue}" Header="Neutral" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding TranslatedValue}" Header="Translation"/>
+            </DataGrid.Columns>
+            <DataGrid.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" Padding="12,2,0,2" />
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </DataGrid.GroupStyle>
         </DataGrid>
+
+        <Grid Grid.Row="1" DataContext="{Binding CurrentTranslation}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Label Content="Group" />
+                <TextBlock Grid.Row="1" Text="{Binding ReferenceGroup}" />
+                <Label Grid.Row="2" Content="Reference" />
+                <TextBlock Grid.Row="3" Text="{Binding ReferenceCode}" />
+                <Label Grid.Row="4" Content="Description" />
+                <TextBlock Grid.Row="5" Text="{Binding Description}" />
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                
+                <Label Content="Neutral string" />
+                <TextBox Grid.Row="1" Text="{Binding NeutralValue}" />
+                <Label Grid.Row="2" Content="Translation" />
+                <TextBox Grid.Row="3" Text="{Binding TranslatedValue}" />
+
+            </Grid>
+
+        </Grid>
+        
     </Grid>
 </UserControl>

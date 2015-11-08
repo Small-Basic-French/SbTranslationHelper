@@ -8,7 +8,7 @@ namespace SbTranslationHelper.ViewModels.DesignTime
 {
     public class DtProjectViewModel : ProjectViewModel
     {
-        public DtProjectViewModel()
+        public DtProjectViewModel() : base(null)
         {
             this.Groups.Add(new GroupViewModel(this, "SmallBasic")
             {
@@ -50,7 +50,7 @@ namespace SbTranslationHelper.ViewModels.DesignTime
             {
 
             });
-
         }
+
     }
 }
