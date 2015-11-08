@@ -124,6 +124,15 @@ namespace SbTranslationHelper.Locales {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Project.
+        /// </summary>
+        public static string ProjectExplorer_Caption {
+            get {
+                return ResourceManager.GetString("ProjectExplorer_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Extension {0}.
         /// </summary>
         public static string TransGroup_Extension_Caption {

@@ -110,7 +110,7 @@ namespace SbTranslationHelper.ViewModels
         /// </summary>
         public bool Loading
         {
-            get { return _Loading; }
+            get { return _Loading || (Project != null && Project.Loading); }
             private set {
                 if(SetProperty(ref _Loading, value, () => Loading))
                 {
@@ -149,12 +149,28 @@ namespace SbTranslationHelper.ViewModels
             get { return _Project; }
             private set
             {
+                var op = _Project;
                 if (SetProperty(ref _Project, value, () => Project))
                 {
+                    if (op != null)
+                        op.PropertyChanged += Project_PropertyChanged;
+                    if (_Project != null)
+                        _Project.PropertyChanged += Project_PropertyChanged;
                     RaisePropertyChanged(() => ProjectOpened);
                 }
             }
         }
+
+        private void Project_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (String.Equals(e.PropertyName, "Loading", StringComparison.OrdinalIgnoreCase))
+            {
+                RaisePropertyChanged(() => Loading);
+                OpenProjectFolderCommand.RaiseCanExecuteChanged();
+                CloseProjectFolderCommand.RaiseCanExecuteChanged();
+            }
+        }
+
         private ProjectViewModel _Project;
 
         /// <summary>

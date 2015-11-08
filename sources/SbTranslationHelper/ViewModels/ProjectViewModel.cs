@@ -20,6 +20,11 @@ namespace SbTranslationHelper.ViewModels
         {
             Project = new Model.TranslationProject();
             Groups = new ObservableCollection<GroupViewModel>();
+            Editors = new ObservableCollection<TranslationEditorViewModel>();
+            OpenTranslationCommand = new RelayCommand<TranslationFileViewModel>(
+                async file => await OpenTranslation(file),
+                file => file != null
+                );
         }
 
         /// <summary>
@@ -33,7 +38,7 @@ namespace SbTranslationHelper.ViewModels
                 var vmGrp = vmGrps.FirstOrDefault(g => String.Equals(g.Name, group.Name, StringComparison.OrdinalIgnoreCase));
                 if (vmGrp == null)
                 {
-                    vmGrp = new GroupViewModel(group.Name);
+                    vmGrp = new GroupViewModel(this, group.Name);
                     Groups.Add(vmGrp);
                 }
                 vmGrp.Caption = group.Caption;
@@ -65,6 +70,32 @@ namespace SbTranslationHelper.ViewModels
         }
 
         /// <summary>
+        /// Open a translation
+        /// </summary>
+        public async Task<TranslationEditorViewModel> OpenTranslation(TranslationFileViewModel file)
+        {
+            if (file == null) return null;
+            TranslationEditorViewModel trans = Editors.FirstOrDefault(e => e.File == file);
+            if (trans == null)
+            {
+                if (Loading) return null;
+                Loading = true;
+                try
+                {
+                    trans = new TranslationEditorViewModel(file);
+                    Editors.Add(trans);
+                    await trans.Load();
+                }
+                finally
+                {
+                    Loading = false;
+                }
+            }
+            CurrentEditor = trans;
+            return trans;
+        }
+
+        /// <summary>
         /// Data
         /// </summary>
         public Model.TranslationProject Project { get; private set; }
@@ -80,10 +111,29 @@ namespace SbTranslationHelper.ViewModels
         private bool _Loading = false;
 
         /// <summary>
+        /// Current editor
+        /// </summary>
+        public TranslationEditorViewModel CurrentEditor
+        {
+            get { return _CurrentEditor; }
+            set { SetProperty(ref _CurrentEditor, value, () => CurrentEditor); }
+        }
+        private TranslationEditorViewModel _CurrentEditor;
+
+        /// <summary>
         /// List of the groups
         /// </summary>
         public ObservableCollection<GroupViewModel> Groups { get; private set; }
 
+        /// <summary>
+        /// List of the opened editors
+        /// </summary>
+        public ObservableCollection<TranslationEditorViewModel> Editors { get; private set; }
+
+        /// <summary>
+        /// Command to open a translation file
+        /// </summary>
+        public RelayCommand<TranslationFileViewModel> OpenTranslationCommand { get; private set; }
     }
 
 }

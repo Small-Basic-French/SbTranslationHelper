@@ -16,8 +16,9 @@ namespace SbTranslationHelper.ViewModels
         /// <summary>
         /// Create a new group
         /// </summary>
-        public GroupViewModel(String name)
+        public GroupViewModel(ProjectViewModel project, String name)
         {
+            this.Project = project;
             this.Name = name;
             Files = new ObservableCollection<TranslationFileViewModel>();
         }
@@ -30,7 +31,7 @@ namespace SbTranslationHelper.ViewModels
                 var cFile = currentFiles.FirstOrDefault(f => String.Equals(file.File, f.File.File, StringComparison.OrdinalIgnoreCase));
                 if(cFile== null)
                 {
-                    cFile = new TranslationFileViewModel(file);
+                    cFile = new TranslationFileViewModel(this, file);
                     this.Files.Add(cFile);
                 }
                 currentFiles.Remove(cFile);
@@ -42,6 +43,11 @@ namespace SbTranslationHelper.ViewModels
         /// Name
         /// </summary>
         public String Name { get; private set; }
+
+        /// <summary>
+        /// Project
+        /// </summary>
+        public ProjectViewModel Project { get; private set; }
 
         /// <summary>
         /// Caption of the group

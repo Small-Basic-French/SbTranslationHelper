@@ -6,6 +6,8 @@
              xmlns:local="clr-namespace:SbTranslationHelper.Views"
              xmlns:vm="clr-namespace:SbTranslationHelper.ViewModels"
              xmlns:dt="clr-namespace:SbTranslationHelper.ViewModels.DesignTime"
+             xmlns:locales="clr-namespace:SbTranslationHelper.Locales"
+             xmlns:controls="clr-namespace:SbTranslationHelper.Controls"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=dt:DtProjectViewModel, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="202.266">
@@ -14,28 +16,52 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Label Content="Project"/>
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{Binding Groups}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <TextBlock Text="{Binding Caption}" Background="AliceBlue" />
-                            <ItemsControl Grid.Row="1" ItemsSource="{Binding Files}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Caption}" />
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
+        <Label Content="{x:Static locales:SR.ProjectExplorer_Caption}" Background="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" Foreground="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}" FontWeight="Bold"/>
+        <TreeView Grid.Row="1" ItemsSource="{Binding Groups}" BorderThickness="0">
+            <TreeView.ItemContainerStyleSelector>
+                <local:ProjectTreeViewStyleSelector>
+                    <local:ProjectTreeViewStyleSelector.GroupStyle>
+                        <Style TargetType="TreeViewItem">
+                            <Setter Property="Background" Value="Aqua"/>
+                            <Setter Property="IsExpanded" Value="True" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="TreeViewItem">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition  />
+                                            </Grid.RowDefinitions>
+                                            <Border Background="LightBlue" Padding="6,3" BorderThickness="0">
+                                                <Grid>
+                                                    <TextBlock Text="{Binding Caption}" FontWeight="Bold" />
+                                                </Grid>
+                                            </Border>
+                                            <ItemsPresenter Grid.Row="1" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </local:ProjectTreeViewStyleSelector.GroupStyle>
+                    <local:ProjectTreeViewStyleSelector.FileStyle>
+                        <Style TargetType="TreeViewItem">
+                            <Setter Property="controls:EventCommands.DoubleClickToCommand" Value="{Binding DataContext.OpenTranslationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ProjectExplorerView}}}" />
+                            <Setter Property="controls:EventCommands.DoubleClickToCommandParameter" Value="{Binding}" />
+                        </Style>
+                    </local:ProjectTreeViewStyleSelector.FileStyle>
+                </local:ProjectTreeViewStyleSelector>
+            </TreeView.ItemContainerStyleSelector>
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Files}">
+                    <TextBlock Text="{Binding Caption}" />
+                    <HierarchicalDataTemplate.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Caption}" />
+                        </DataTemplate>
+                    </HierarchicalDataTemplate.ItemTemplate>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
     </Grid>
 </UserControl>

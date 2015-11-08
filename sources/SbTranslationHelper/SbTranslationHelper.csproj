@@ -54,6 +54,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\EventCommands.cs" />
     <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Model\TranslationFile.cs" />
@@ -65,12 +66,15 @@
     <Compile Include="Utils\FolderBrowserDialog.cs" />
     <Compile Include="ViewModels\AppViewModel.cs" />
     <Compile Include="ViewModels\DesignTime\DtProjectViewModel.cs" />
+    <Compile Include="ViewModels\DesignTime\DtTranslationEditorViewModel.cs" />
     <Compile Include="ViewModels\GroupViewModel.cs" />
     <Compile Include="ViewModels\ProjectViewModel.cs" />
+    <Compile Include="ViewModels\TranslationEditorViewModel.cs" />
     <Compile Include="ViewModels\TranslationFileViewModel.cs" />
     <Compile Include="Views\ProjectExplorerView.xaml.cs">
       <DependentUpon>ProjectExplorerView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ProjectTreeViewStyleSelector.cs" />
     <Compile Include="Views\ProjectView.xaml.cs">
       <DependentUpon>ProjectView.xaml</DependentUpon>
     </Compile>

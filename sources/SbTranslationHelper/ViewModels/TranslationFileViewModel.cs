@@ -18,8 +18,9 @@ namespace SbTranslationHelper.ViewModels
         /// <summary>
         /// New translation file
         /// </summary>
-        public TranslationFileViewModel(TranslationFile file)
+        public TranslationFileViewModel(GroupViewModel group, TranslationFile file)
         {
+            this.Group = group;
             this.File = file;
             if (this.File.IsNeutral)
             {
@@ -38,6 +39,11 @@ namespace SbTranslationHelper.ViewModels
                     this.Caption = this.Culture.DisplayName;
             }
         }
+
+        /// <summary>
+        /// Group
+        /// </summary>
+        public GroupViewModel Group { get; private set; }
 
         /// <summary>
         /// File data

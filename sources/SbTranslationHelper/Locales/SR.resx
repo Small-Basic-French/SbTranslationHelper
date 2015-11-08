@@ -145,6 +145,10 @@
     <value>Open</value>
     <comment>Caption for "Open" UI element</comment>
   </data>
+  <data name="ProjectExplorer_Caption" xml:space="preserve">
+    <value>Project</value>
+    <comment>Caption for the project explorer</comment>
+  </data>
   <data name="TransGroup_Extension_Caption" xml:space="preserve">
     <value>Extension {0}</value>
     <comment>Caption for an extension group. {0} is the name of the extension.</comment>
