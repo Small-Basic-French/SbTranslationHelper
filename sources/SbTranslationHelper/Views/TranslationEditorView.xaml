@@ -78,6 +78,15 @@
             </Grid>
 
             <Grid Grid.Column="1">
+                <Grid.Resources>
+                    <Style TargetType="TextBox">
+                        <Setter Property="TextWrapping" Value="NoWrap" />
+                        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+                        <Setter Property="HorizontalScrollBarVisibility" Value="Auto" /> 
+                        <Setter Property="Height" Value="64" />
+                        <Setter Property="AcceptsReturn" Value="True"/>
+                    </Style>
+                </Grid.Resources>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition />
@@ -86,9 +95,9 @@
                 </Grid.RowDefinitions>
                 
                 <Label Content="Neutral string" />
-                <TextBox Grid.Row="1" Text="{Binding NeutralValue}" />
+                <TextBox Grid.Row="1" Text="{Binding NeutralValue}" IsReadOnly="True" />
                 <Label Grid.Row="2" Content="Translation" />
-                <TextBox Grid.Row="3" Text="{Binding TranslatedValue}" />
+                <TextBox Grid.Row="3" Text="{Binding TranslatedValue, UpdateSourceTrigger=PropertyChanged}" />
 
             </Grid>
 
