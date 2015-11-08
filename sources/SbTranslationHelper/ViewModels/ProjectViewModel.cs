@@ -41,6 +41,10 @@ namespace SbTranslationHelper.ViewModels
                 },
                 file => file != null
                 );
+            CloseEditorCommand = new RelayCommand<TranslationEditorViewModel>(
+                editor => CloseEditor(editor),
+                editor => editor != null
+                );
         }
 
         /// <summary>
@@ -112,6 +116,18 @@ namespace SbTranslationHelper.ViewModels
         }
 
         /// <summary>
+        /// Close an editor
+        /// </summary>
+        public void CloseEditor(TranslationEditorViewModel editor)
+        {
+            var idx = Editors.IndexOf(editor);
+            if (idx < 0) return;
+            Editors.Remove(editor);
+            idx = Math.Min(idx, Editors.Count - 1);
+            CurrentEditor = idx >= 0 ? Editors[idx] : null;
+        }
+
+        /// <summary>
         /// Data
         /// </summary>
         public Model.TranslationProject Project { get; private set; }
@@ -150,6 +166,12 @@ namespace SbTranslationHelper.ViewModels
         /// Command to open a translation file
         /// </summary>
         public RelayCommand<TranslationFileViewModel> OpenTranslationCommand { get; private set; }
+
+        /// <summary>
+        /// Command to close an editor
+        /// </summary>
+        public RelayCommand<TranslationEditorViewModel> CloseEditorCommand { get; private set; }
+
     }
 
 }
