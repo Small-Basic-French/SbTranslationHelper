@@ -23,13 +23,16 @@ namespace SbTranslationHelper.Services
             var dlg = new Utils.FolderBrowserDialog();
             if (!String.IsNullOrWhiteSpace(title))
                 dlg.Title = title;
+            dlg.BrowseShares = true;
+            dlg.SelectedPath = SbTranslationHelper.Properties.Settings.Default.LastOpenedFolder;
             if (dlg.ShowDialog(App.Current.MainWindow) == true)
             {
+                SbTranslationHelper.Properties.Settings.Default.LastOpenedFolder = dlg.SelectedPath;
+                SbTranslationHelper.Properties.Settings.Default.Save();
                 return Task.FromResult(dlg.SelectedPath);
             }
             return Task.FromResult<String>(null);
         }
-
 
         /// <summary>
         /// Display an exception message
