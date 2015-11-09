@@ -21,6 +21,22 @@ namespace SbTranslationHelper.ViewModels
         {
             this.Translations = new ObservableCollection<TranslationViewModel>();
             this.File = file;
+            MoveToPreviousTranslationCommand = new RelayCommand(
+                () => MoveToPreviousTranslation(),
+                () =>
+                {
+                    int idx = Translations.IndexOf(CurrentTranslation);
+                    return idx > 0;
+                }
+                );
+            MoveToNextTranslationCommand = new RelayCommand(
+                () => MoveToNextTranslation(),
+                () =>
+                {
+                    int idx = Translations.IndexOf(CurrentTranslation);
+                    return idx >= 0 && idx < Translations.Count - 1;
+                }
+                );
         }
 
         /// <summary>
@@ -44,6 +60,7 @@ namespace SbTranslationHelper.ViewModels
                     {
                         this.Translations.Add(new TranslationViewModel
                         {
+                            Editor = this,
                             ReferenceGroup = trans.ReferenceGroup,
                             ReferenceCode = trans.ReferenceCode,
                             Description = trans.Description,
@@ -52,11 +69,33 @@ namespace SbTranslationHelper.ViewModels
                         });
                     }
                 }
+                CurrentTranslation = Translations.FirstOrDefault();
+                IsDirty = false;
             }
             finally
             {
                 IsBusy = false;
             }
+        }
+
+        /// <summary>
+        /// Move to the previous translation
+        /// </summary>
+        public void MoveToPreviousTranslation()
+        {
+            int idx = Translations.IndexOf(CurrentTranslation);
+            if (idx > 0)
+                CurrentTranslation = Translations[idx - 1];
+        }
+
+        /// <summary>
+        /// Move to the next translation
+        /// </summary>
+        public void MoveToNextTranslation()
+        {
+            int idx = Translations.IndexOf(CurrentTranslation);
+            if (idx >= 0 && idx < Translations.Count - 1)
+                CurrentTranslation = Translations[idx + 1];
         }
 
         /// <summary>
@@ -89,6 +128,25 @@ namespace SbTranslationHelper.ViewModels
         }
         private TranslationViewModel _CurrentTranslation;
 
+        /// <summary>
+        /// Indicates if the translations need to be saved
+        /// </summary>
+        public bool IsDirty
+        {
+            get { return _IsDirty; }
+            internal set { SetProperty(ref _IsDirty, value, () => IsDirty); }
+        }
+        private bool _IsDirty;
+
+        /// <summary>
+        /// Command to move to the previous translation
+        /// </summary>
+        public RelayCommand MoveToPreviousTranslationCommand { get; private set; }
+
+        /// <summary>
+        /// Command to move to the next translation
+        /// </summary>
+        public RelayCommand MoveToNextTranslationCommand { get; private set; }
     }
 
 }

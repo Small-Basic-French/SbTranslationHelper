@@ -20,9 +20,16 @@
             </CollectionViewSource.SortDescriptions>-->
         </CollectionViewSource>
     </UserControl.Resources>
+    <UserControl.InputBindings>
+        <KeyBinding Command="{Binding MoveToPreviousTranslationCommand}" Gesture="F7" />
+        <KeyBinding Command="{Binding MoveToNextTranslationCommand}" Gesture="F8" />
+        <KeyBinding Command="{Binding MoveToPreviousTranslationCommand}" Gesture="Alt+Left" />
+        <KeyBinding Command="{Binding MoveToNextTranslationCommand}" Gesture="Alt+Right" />
+    </UserControl.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <DataGrid 
@@ -56,8 +63,8 @@
 
         <Grid Grid.Row="1" DataContext="{Binding CurrentTranslation}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
             
             <Grid>
@@ -101,6 +108,30 @@
 
             </Grid>
 
+        </Grid>
+
+        <Grid Grid.Row="2" Margin="4">
+            <Grid.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Width" Value="64" />
+                    <Setter Property="Margin" Value="2,0"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Save" Visibility="Collapsed"/>
+                <Button Content="Reload" Visibility="Collapsed"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Previous" Command="{Binding MoveToPreviousTranslationCommand}" />
+                <Button Content="Next" Command="{Binding MoveToNextTranslationCommand}" />
+            </StackPanel>
+            
         </Grid>
         
     </Grid>

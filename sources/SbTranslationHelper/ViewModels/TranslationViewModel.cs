@@ -19,6 +19,11 @@ namespace SbTranslationHelper.ViewModels
         }
 
         /// <summary>
+        /// Editor
+        /// </summary>
+        public TranslationEditorViewModel Editor { get; set; }
+
+        /// <summary>
         /// Reference group
         /// </summary>
         public String ReferenceGroup
@@ -80,7 +85,11 @@ namespace SbTranslationHelper.ViewModels
         public String TranslatedValue
         {
             get { return _TranslatedValue; }
-            set { SetProperty(ref _TranslatedValue, value, () => TranslatedValue); }
+            set
+            {
+                if (SetProperty(ref _TranslatedValue, value, () => TranslatedValue))
+                    Editor.IsDirty = true;
+            }
         }
         private String _TranslatedValue;
 
