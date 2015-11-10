@@ -128,7 +128,7 @@ namespace SbTranslationHelper.ViewModels
                 foreach (var iFile in iProject.Groups.SelectMany(g => g.Files))
                 {
                     // If neutral XML find the DLL
-                    if(iFile.IsNeutral && iFile.FileType == "xml")
+                    if (iFile.IsNeutral && String.Equals(iFile.FileType, "xml", StringComparison.OrdinalIgnoreCase))
                     {
                         var dllFile = new Model.TranslationFile(iFile.Folder, iFile.FileName, "dll");
                         if (!iProject.Groups.Any(g => g.FindFile(dllFile.File) != null))
