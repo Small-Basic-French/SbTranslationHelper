@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -70,23 +71,79 @@ namespace SbTranslationHelper.ViewModels
                 Groups.Remove(grp);
         }
 
+        private async Task InternalLoadProjectASync(string folder)
+        {
+            await Task.Run(() => Project.ScanFolder(folder));
+            ProjectFolder = folder;
+            UpdateProjectData();
+        }
+
         /// <summary>
         /// Load the project
         /// </summary>
-        public async Task<bool> LoadProject(String folder)
+        public async Task<bool> LoadProjectAsync(String folder)
         {
             if (Loading) return false;
             try
             {
                 Loading = true;
-                await Task.Run(() => Project.ScanFolder(folder));
-                UpdateProjectData();
+                await InternalLoadProjectASync(folder);
             }
             finally
             {
                 Loading = false;
             }
             return true;
+        }
+
+        async Task CopyFileAsync(bool overrideFiles, DirectoryInfo iDir, Model.TranslationFile iFile)
+        {
+            String siFilePath = iFile.File.Substring(iDir.FullName.Length).Trim('\\', '/');
+            String diFilePath = Path.Combine(ProjectFolder, siFilePath);
+            String diFolderPath = Path.GetDirectoryName(diFilePath);
+            if (!Directory.Exists(diFolderPath))
+                Directory.CreateDirectory(diFolderPath);
+            if (!File.Exists(diFilePath) || overrideFiles)
+            {
+                if (File.Exists(diFilePath)) File.Delete(diFilePath);
+                using (var sStr = File.OpenRead(iFile.File))
+                using (var dStr = File.Create(diFilePath))
+                    await sStr.CopyToAsync(dStr);
+            }
+        }
+
+        /// <summary>
+        /// Import the files to the project folder from an another folder
+        /// </summary>
+        public async Task<bool> ImportFolderAsync(String folder, bool overrideFiles)
+        {
+            if (String.IsNullOrWhiteSpace(ProjectFolder)) return false;
+            if (Loading) return false;
+            try
+            {
+                Loading = true;
+                DirectoryInfo iDir = new DirectoryInfo(folder);
+                var iProject = new Model.TranslationProject();
+                iProject.ScanFolder(folder);
+                foreach (var iFile in iProject.Groups.SelectMany(g => g.Files))
+                {
+                    // If neutral XML find the DLL
+                    if(iFile.IsNeutral && iFile.FileType == "xml")
+                    {
+                        var dllFile = new Model.TranslationFile(iFile.Folder, iFile.FileName, "dll");
+                        if (!iProject.Groups.Any(g => g.FindFile(dllFile.File) != null))
+                            await CopyFileAsync(overrideFiles, iDir, dllFile);
+                    }
+                    await CopyFileAsync(overrideFiles, iDir, iFile);
+                }
+                Project.Groups.Clear();
+                await InternalLoadProjectASync(ProjectFolder);
+                return true;
+            }
+            finally
+            {
+                Loading = false;
+            }
         }
 
         /// <summary>
@@ -141,6 +198,16 @@ namespace SbTranslationHelper.ViewModels
             private set { SetProperty(ref _Loading, value, () => Loading); }
         }
         private bool _Loading = false;
+
+        /// <summary>
+        /// Folder for the project
+        /// </summary>
+        public String ProjectFolder
+        {
+            get { return _ProjectFolder; }
+            private set { SetProperty(ref _ProjectFolder, value, () => ProjectFolder); }
+        }
+        private String _ProjectFolder;
 
         /// <summary>
         /// Current editor

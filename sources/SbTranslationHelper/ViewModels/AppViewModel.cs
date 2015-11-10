@@ -28,6 +28,10 @@ namespace SbTranslationHelper.ViewModels
                 async () => await OpenProjectAsync(),
                 () => !Loading && !ProjectOpened
                 );
+            ImportFromSmallBasicCommand = new RelayCommand(
+                async () => await ImportFromSmallBasicFolderAsync(),
+                () => !Loading && ProjectOpened && !String.IsNullOrWhiteSpace(SmallBasicFolder)
+                );
             CloseProjectFolderCommand = new RelayCommand(
                 async () => await CloseProjectAsync(),
                 () => !Loading && ProjectOpened
@@ -64,9 +68,7 @@ namespace SbTranslationHelper.ViewModels
             {
                 Loading = true;
                 Project = new ProjectViewModel(this._AppService);
-                await Project.LoadProject(ProjectFolder);
-                // TODO To remove
-                await Task.Delay(2000);
+                await Project.LoadProjectAsync(ProjectFolder);
                 return true;
             }
             finally
@@ -90,6 +92,39 @@ namespace SbTranslationHelper.ViewModels
             // Load
             ProjectFolder = newFolder;
             await Load();
+            return true;
+        }
+
+        /// <summary>
+        /// Import files from the SmallBasic folder
+        /// </summary>
+        public async Task<bool> ImportFromSmallBasicFolderAsync()
+        {
+            Exception error = null;
+            try {
+                if (!ProjectOpened) return false;
+                if (String.IsNullOrWhiteSpace(SmallBasicFolder))
+                    return false;
+                if (Loading) return false;
+                Loading = true;
+                try
+                {
+                    await Project.ImportFolderAsync(SmallBasicFolder, true);
+                }
+                finally
+                {
+                    Loading = false;
+                }
+            }
+            catch(Exception ex)
+            {
+                error = ex;
+            }
+            if (error != null)
+            {
+                await _AppService.ShowError(error);
+                return false;
+            }
             return true;
         }
 
@@ -182,6 +217,11 @@ namespace SbTranslationHelper.ViewModels
         /// Command to open the project folder
         /// </summary>
         public RelayCommand OpenProjectFolderCommand { get; private set; }
+
+        /// <summary>
+        /// Command to import from Small Basic
+        /// </summary>
+        public RelayCommand ImportFromSmallBasicCommand { get; private set; }
 
         /// <summary>
         /// Command to close the project folder

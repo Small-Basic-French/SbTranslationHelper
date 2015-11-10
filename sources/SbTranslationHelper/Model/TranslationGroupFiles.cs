@@ -120,12 +120,17 @@ namespace SbTranslationHelper.Model
                     String refObj =
                         element.Name.ToString()
                         + String.Concat(element.Attributes().OrderBy(a => a.Name).Select(a => String.Format("@{0}:{1}", a.Name, a.Value)));
-
+                    String transValue = String.Empty;
+                    using(var rdr = element.CreateReader())
+                    {
+                        rdr.MoveToContent();
+                        transValue = rdr.ReadInnerXml();
+                    }
                     TranslationData tData = new TranslationData
                     {
                         ReferenceGroup = category,
                         ReferenceCode = refObj,
-                        Translation= ((string)element).Trim()
+                        Translation = transValue
                     };
                     yield return tData;
                 }

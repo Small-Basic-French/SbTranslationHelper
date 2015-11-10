@@ -54,11 +54,21 @@
 
         <ProgressBar Grid.Row="1" Height="6" Margin="4" IsIndeterminate="True" Visibility="{Binding Loading, ConverterParameter=hidden, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-        <Views:ProjectView 
-            Grid.Row="2" 
-            Margin="4" 
-            DataContext="{Binding Project}"
-            Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}}" />
+        <Grid Grid.Row="2" Margin="4" Visibility="{Binding Project, Converter={StaticResource NullToVisibilityConverter}}" >
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            
+            <Views:ProjectView 
+                Margin="4" 
+                DataContext="{Binding Project}"
+                />
 
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <Button Content="Import files from Small Basic Folder" Command="{Binding ImportFromSmallBasicCommand}" />
+            </StackPanel>
+        </Grid>
+        
     </Grid>
 </Window>
