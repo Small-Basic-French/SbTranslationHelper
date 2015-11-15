@@ -46,9 +46,9 @@
             SelectionMode="Single"
             >
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding ReferenceCode}" Header="Reference" IsReadOnly="True" />
-                <DataGridTextColumn Binding="{Binding NeutralValue}" Header="Neutral" IsReadOnly="True"/>
-                <DataGridTextColumn Binding="{Binding TranslatedValue}" Header="Translation"/>
+                <DataGridTextColumn Binding="{Binding ReferenceCode}" Header="Reference" IsReadOnly="True" Width="1*" />
+                <DataGridTextColumn Binding="{Binding NeutralValue}" Header="Neutral" IsReadOnly="True" Width="2*" />
+                <DataGridTextColumn Binding="{Binding TranslatedValue}" Header="Translation" Width="2*" />
             </DataGrid.Columns>
             <DataGrid.GroupStyle>
                 <GroupStyle>
