@@ -121,6 +121,14 @@
     <value>Small Basic Translation Helper</value>
     <comment>Don't translate this.</comment>
   </data>
+  <data name="CloseEditor_ConfirmSaveModifications_Message" xml:space="preserve">
+    <value>This translations have changes not saved. Do you want to save it before close ?</value>
+    <comment>Message of the confirm save dialog</comment>
+  </data>
+  <data name="CloseEditor_ConfirmSaveModifications_Title" xml:space="preserve">
+    <value>Save modifications</value>
+    <comment>Title of the confirm save dialog</comment>
+  </data>
   <data name="CloseProject_Tooltip" xml:space="preserve">
     <value>Close the current project (Ctrl+F4)</value>
     <comment>Tooltip for the "Close project" UI element</comment>

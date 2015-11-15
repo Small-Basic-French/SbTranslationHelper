@@ -42,7 +42,7 @@ namespace SbTranslationHelper.ViewModels
         /// <summary>
         /// Load the data
         /// </summary>
-        public async Task Load()
+        public async Task LoadAsync()
         {
             if (IsBusy) return;
             IsBusy = true;
@@ -75,6 +75,26 @@ namespace SbTranslationHelper.ViewModels
                     //}
                 }
                 CurrentTranslation = Translations.FirstOrDefault();
+                IsDirty = false;
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        /// <summary>
+        /// Save
+        /// </summary>
+        /// <returns></returns>
+        public async Task SaveAsync()
+        {
+            if (IsBusy) return;
+            IsBusy = true;
+            try
+            {
+                // TODO Save the content
+                await Task.Delay(1000);
                 IsDirty = false;
             }
             finally

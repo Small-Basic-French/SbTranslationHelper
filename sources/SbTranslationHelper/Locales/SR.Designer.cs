@@ -79,6 +79,24 @@ namespace SbTranslationHelper.Locales {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à This translations have changes not saved. Do you want to save it before close ?.
+        /// </summary>
+        public static string CloseEditor_ConfirmSaveModifications_Message {
+            get {
+                return ResourceManager.GetString("CloseEditor_ConfirmSaveModifications_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Save modifications.
+        /// </summary>
+        public static string CloseEditor_ConfirmSaveModifications_Title {
+            get {
+                return ResourceManager.GetString("CloseEditor_ConfirmSaveModifications_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Close the current project (Ctrl+F4).
         /// </summary>
         public static string CloseProject_Tooltip {

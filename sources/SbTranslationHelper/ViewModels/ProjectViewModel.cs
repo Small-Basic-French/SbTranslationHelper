@@ -31,7 +31,7 @@ namespace SbTranslationHelper.ViewModels
                     Exception error = null;
                     try
                     {
-                        await OpenTranslation(file);
+                        await OpenTranslationAsync(file);
                     }
                     catch (Exception ex)
                     {
@@ -43,7 +43,7 @@ namespace SbTranslationHelper.ViewModels
                 file => file != null
                 );
             CloseEditorCommand = new RelayCommand<TranslationEditorViewModel>(
-                editor => CloseEditor(editor),
+                async editor => await CloseEditorAsync(editor),
                 editor => editor != null
                 );
         }
@@ -149,7 +149,7 @@ namespace SbTranslationHelper.ViewModels
         /// <summary>
         /// Open a translation
         /// </summary>
-        public async Task<TranslationEditorViewModel> OpenTranslation(TranslationFileViewModel file)
+        public async Task<TranslationEditorViewModel> OpenTranslationAsync(TranslationFileViewModel file)
         {
             if (file == null) return null;
             TranslationEditorViewModel trans = Editors.FirstOrDefault(e => e.File == file);
@@ -161,7 +161,7 @@ namespace SbTranslationHelper.ViewModels
                 {
                     trans = new TranslationEditorViewModel(file);
                     Editors.Add(trans);
-                    await trans.Load();
+                    await trans.LoadAsync();
                 }
                 finally
                 {
@@ -175,13 +175,49 @@ namespace SbTranslationHelper.ViewModels
         /// <summary>
         /// Close an editor
         /// </summary>
-        public void CloseEditor(TranslationEditorViewModel editor)
+        public async Task<bool> CloseEditorAsync(TranslationEditorViewModel editor)
         {
             var idx = Editors.IndexOf(editor);
-            if (idx < 0) return;
+            if (idx < 0) return false;
+            if (editor.IsDirty)
+            {
+                var res = await _AppService.ConfirmYesNoCancelAsync(
+                    Locales.SR.CloseEditor_ConfirmSaveModifications_Message,
+                    Locales.SR.CloseEditor_ConfirmSaveModifications_Title
+                    );
+                if (!res.HasValue) return false;
+                if (res == true)
+                {
+                    await editor.SaveAsync();
+                }
+            }
             Editors.Remove(editor);
             idx = Math.Min(idx, Editors.Count - 1);
             CurrentEditor = idx >= 0 ? Editors[idx] : null;
+            return true;
+        }
+
+        /// <summary>
+        /// Close all editors
+        /// </summary>
+        public async Task<bool> CloseAllEditorsAsync()
+        {
+            foreach (var editor in Editors)
+            {
+                if (editor.IsDirty)
+                {
+                    var res = await _AppService.ConfirmYesNoCancelAsync(
+                        Locales.SR.CloseEditor_ConfirmSaveModifications_Message,
+                        Locales.SR.CloseEditor_ConfirmSaveModifications_Title
+                        );
+                    if (!res.HasValue) return false;
+                    if (res == true)
+                        await editor.SaveAsync();
+                }
+            }
+            Editors.Clear();
+            CurrentEditor = null;
+            return true;
         }
 
         /// <summary>

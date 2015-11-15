@@ -24,12 +24,21 @@ namespace SbTranslationHelper
         {
             InitializeComponent();
             this.Loaded += MainWindow_Loaded;
+            this.Closing += MainWindow_Closing;
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // Initialize the ViewModel
             ViewModel.Initialize();
+        }
+
+        private async void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (ViewModel != null && ViewModel.ProjectOpened)
+            {
+                e.Cancel = !(await ViewModel.CloseProjectAsync());
+            }
         }
 
         /// <summary>

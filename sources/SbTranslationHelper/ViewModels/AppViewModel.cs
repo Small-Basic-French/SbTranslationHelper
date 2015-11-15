@@ -131,13 +131,14 @@ namespace SbTranslationHelper.ViewModels
         /// <summary>
         /// Close the current project folder
         /// </summary>
-        public Task<bool> CloseProjectAsync()
+        public async Task<bool> CloseProjectAsync()
         {
-            if (!ProjectOpened) return Task.FromResult(false);
-            // TODO Save if the project is dirty
+            if (!ProjectOpened) return false;
+            if (!(await Project.CloseAllEditorsAsync()))
+                return false;
             Project = null;
             ProjectFolder = null;
-            return Task.FromResult(true);
+            return true;
         }
 
         /// <summary>

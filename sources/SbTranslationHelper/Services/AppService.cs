@@ -43,5 +43,30 @@ namespace SbTranslationHelper.Services
             return Task.FromResult(true);
         }
 
+        /// <summary>
+        /// Display a dialog to confirm with button Yes and No
+        /// </summary>
+        /// <param name="message">Message of the confirmation</param>
+        /// <param name="title">Title of the dialog</param>
+        /// <returns>True if Yes is selected, and False if No is selected.</returns>
+        public Task<bool> ConfirmYesNoAsync(String message, String title)
+        {
+            return Task.FromResult(MessageBox.Show(message, title, MessageBoxButton.YesNo) == MessageBoxResult.Yes);
+        }
+
+        /// <summary>
+        /// Display a dialog to confirm with button Yes, No and Cancel
+        /// </summary>
+        /// <param name="message">Message of the confirmation</param>
+        /// <param name="title">Title of the dialog</param>
+        /// <returns>Null if Cancel selected, True if Yes is selected, and False if No is selected.</returns>
+        public Task<bool?> ConfirmYesNoCancelAsync(String message, String title)
+        {
+            var res = MessageBox.Show(message, title, MessageBoxButton.YesNoCancel);
+            if (res == MessageBoxResult.Cancel)
+                return Task.FromResult<bool?>(null);
+            return Task.FromResult<bool?>(res == MessageBoxResult.Yes);
+        }
+
     }
 }
