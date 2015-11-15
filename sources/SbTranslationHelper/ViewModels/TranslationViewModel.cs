@@ -12,10 +12,13 @@ namespace SbTranslationHelper.ViewModels
     /// </summary>
     public class TranslationViewModel : ObservableObject
     {
-
-        void RefreshReferenceKey()
+        /// <summary>
+        /// Create a new model
+        /// </summary>
+        public TranslationViewModel(TranslationEditorViewModel editor, Model.TranslationContentValue value)
         {
-            ReferenceKey =  string.Format("{0}.{1}", ReferenceGroup, ReferenceCode);
+            this.Editor = editor;
+            this.ContentValue = value;
         }
 
         /// <summary>
@@ -24,74 +27,50 @@ namespace SbTranslationHelper.ViewModels
         public TranslationEditorViewModel Editor { get; set; }
 
         /// <summary>
+        /// Content value
+        /// </summary>
+        public Model.TranslationContentValue ContentValue { get; private set; }
+
+        /// <summary>
         /// Reference group
         /// </summary>
-        public String ReferenceGroup
-        {
-            get { return _ReferenceGroup; }
-            set {
-                if (SetProperty(ref _ReferenceGroup, value, () => ReferenceGroup))
-                    RefreshReferenceKey();
-            }
-        }
-        private String _ReferenceGroup;
+        public String ReferenceGroup { get { return ContentValue.ReferenceGroup; } }
 
         /// <summary>
         /// Reference code
         /// </summary>
-        public String ReferenceCode
-        {
-            get { return _ReferenceCode; }
-            set {
-                if (SetProperty(ref _ReferenceCode, value, () => ReferenceCode))
-                    RefreshReferenceKey();
-            }
-        }
-        private String _ReferenceCode;
+        public String ReferenceCode { get { return ContentValue.ReferenceCode; } }
 
         /// <summary>
         /// Reference key
         /// </summary>
-        public String ReferenceKey
-        {
-            get { return _ReferenceKey; }
-            private set { SetProperty(ref _ReferenceKey, value, () => ReferenceKey); }
-        }
-        private String _ReferenceKey;
+        public String ReferenceKey { get { return ContentValue.ReferenceKey; } }
 
         /// <summary>
         /// Description
         /// </summary>
-        public String Description
-        {
-            get { return _Description; }
-            set { SetProperty(ref _Description, value, () => Description); }
-        }
-        private String _Description;
+        public String Description { get { return ContentValue.Description; } }
 
         /// <summary>
         /// Neutral value
         /// </summary>
-        public String NeutralValue
-        {
-            get { return _NeutralValue; }
-            set { SetProperty(ref _NeutralValue, value, () => NeutralValue); }
-        }
-        private String _NeutralValue;
+        public String NeutralValue { get { return ContentValue.NeutralValue; } }
 
         /// <summary>
         /// Translated value
         /// </summary>
         public String TranslatedValue
         {
-            get { return _TranslatedValue; }
+            get { return ContentValue.TranslationValue; }
             set
             {
-                if (SetProperty(ref _TranslatedValue, value, () => TranslatedValue))
-                    Editor.IsDirty = true;
+                if (ContentValue.TranslationValue != value)
+                {
+                    ContentValue.TranslationValue = value;
+                    RaisePropertyChanged(() => TranslatedValue);
+                }
             }
         }
-        private String _TranslatedValue;
 
     }
 

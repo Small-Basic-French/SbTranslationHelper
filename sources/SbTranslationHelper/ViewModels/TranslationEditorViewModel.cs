@@ -52,22 +52,27 @@ namespace SbTranslationHelper.ViewModels
                 var grp = this.File.Group.Project.Project.FindGroup(this.File.Group.Name);
                 if (grp != null)
                 {
-                    var translations = await Task.Run(() =>
+                    TranslationContentData = await Task.Run(() => { return grp.OpenContent(this.File.File.File); });
+                    foreach (var trans in TranslationContentData.Content)
                     {
-                        return grp.ReadFile(this.File.File.File).ToList();
-                    });
-                    foreach (var trans in translations)
-                    {
-                        this.Translations.Add(new TranslationViewModel
-                        {
-                            Editor = this,
-                            ReferenceGroup = trans.ReferenceGroup,
-                            ReferenceCode = trans.ReferenceCode,
-                            Description = trans.Description,
-                            NeutralValue = trans.NeutralValue,
-                            TranslatedValue = trans.Translation
-                        });
+                        this.Translations.Add(new TranslationViewModel(this, trans));
                     }
+                    //var translations = await Task.Run(() =>
+                    //{
+                    //    return grp.ReadFile(this.File.File.File).ToList();
+                    //});
+                    //foreach (var trans in translations)
+                    //{
+                    //    this.Translations.Add(new TranslationViewModel
+                    //    {
+                    //        Editor = this,
+                    //        ReferenceGroup = trans.ReferenceGroup,
+                    //        ReferenceCode = trans.ReferenceCode,
+                    //        Description = trans.Description,
+                    //        NeutralValue = trans.NeutralValue,
+                    //        TranslatedValue = trans.Translation
+                    //    });
+                    //}
                 }
                 CurrentTranslation = Translations.FirstOrDefault();
                 IsDirty = false;
@@ -102,6 +107,11 @@ namespace SbTranslationHelper.ViewModels
         /// File in edition
         /// </summary>
         public TranslationFileViewModel File { get; private set; }
+
+        /// <summary>
+        /// Data of the current translation
+        /// </summary>
+        public Model.TranslationContent TranslationContentData { get; protected set; }
 
         /// <summary>
         /// Loading or writing activity

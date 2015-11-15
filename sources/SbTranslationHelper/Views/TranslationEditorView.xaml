@@ -102,7 +102,7 @@
                 </Grid.RowDefinitions>
                 
                 <Label Content="Neutral string" />
-                <TextBox Grid.Row="1" Text="{Binding NeutralValue}" IsReadOnly="True" />
+                <TextBox Grid.Row="1" Text="{Binding NeutralValue, Mode=OneWay}" IsReadOnly="True" />
                 <Label Grid.Row="2" Content="Translation" />
                 <TextBox Grid.Row="3" Text="{Binding TranslatedValue, UpdateSourceTrigger=PropertyChanged}" />
 
