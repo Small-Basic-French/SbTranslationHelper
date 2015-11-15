@@ -64,10 +64,11 @@ namespace SbTranslationHelper.ViewModels
             get { return ContentValue.TranslationValue; }
             set
             {
-                if (ContentValue.TranslationValue != value)
+                if (ContentValue.HasTranslation && ContentValue.TranslationValue != value)
                 {
                     ContentValue.TranslationValue = value;
                     RaisePropertyChanged(() => TranslatedValue);
+                    Editor.IsDirty = true;
                 }
             }
         }

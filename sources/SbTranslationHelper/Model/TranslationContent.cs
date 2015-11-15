@@ -113,6 +113,14 @@ namespace SbTranslationHelper.Model
         internal TranslationFileValue Translation { get; private set; }
 
         /// <summary>
+        /// Indicates if we have a translation
+        /// </summary>
+        /// <remarks>
+        /// If false the it's a neutral only content.
+        /// </remarks>
+        public bool HasTranslation { get { return Translation != null; } }
+
+        /// <summary>
         /// Reference group
         /// </summary>
         public string ReferenceGroup { get; private set; }
@@ -142,10 +150,10 @@ namespace SbTranslationHelper.Model
         /// </summary>
         public string TranslationValue
         {
-            get { return this.Translation != null ? this.Translation.Translation : null; }
+            get { return HasTranslation ? this.Translation.Translation : null; }
             set
             {
-                if (this.Translation != null)
+                if (HasTranslation)
                     this.Translation.Translation = value;
             }
         }
