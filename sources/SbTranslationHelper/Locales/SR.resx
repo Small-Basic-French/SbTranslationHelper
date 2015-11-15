@@ -117,8 +117,84 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="BaseXmlResourceFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BaseXmlResourceFile.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="ApplicationName" xml:space="preserve">
+    <value>Small Basic Translation Helper</value>
+    <comment>Don't translate this.</comment>
+  </data>
+  <data name="CloseEditor_ConfirmSaveModifications_Message" xml:space="preserve">
+    <value>This translations have changes not saved. Do you want to save it before close ?</value>
+    <comment>Message of the confirm save dialog</comment>
+  </data>
+  <data name="CloseEditor_ConfirmSaveModifications_Title" xml:space="preserve">
+    <value>Save modifications</value>
+    <comment>Title of the confirm save dialog</comment>
+  </data>
+  <data name="CloseProject_Tooltip" xml:space="preserve">
+    <value>Close the current project (Ctrl+F4)</value>
+    <comment>Tooltip for the "Close project" UI element</comment>
+  </data>
+  <data name="Close_Caption" xml:space="preserve">
+    <value>Close</value>
+    <comment>Caption for "Close" UI element</comment>
+  </data>
+  <data name="Error_CantReadFileType" xml:space="preserve">
+    <value>Can't read '{0}' file type.</value>
+    <comment>Error when loading a file not supported by the project.</comment>
+  </data>
+  <data name="Error_CantWriteFileType" xml:space="preserve">
+    <value>Can't write '{0}' file type.</value>
+    <comment>Error when writing a file not supported by the project.</comment>
+  </data>
+  <data name="Error_FileNotFoundInGroup" xml:space="preserve">
+    <value>File not found in the group.</value>
+    <comment>Error when a file is not find in a group.</comment>
+  </data>
+  <data name="Error_Project_InvalidResourceFile" xml:space="preserve">
+    <value>The file is an invalid resource file.</value>
+    <comment>Error when we try to load a resource file wich not contains correct tag.</comment>
+  </data>
+  <data name="Error_Project_InvalidXmlDocFile" xml:space="preserve">
+    <value>The file is an XmlDoc resource file.</value>
+    <comment>Error when we try to load a XmlDoc file wich not contains correct tag.</comment>
+  </data>
+  <data name="FolderBrowser_OpenProjectFolder_Title" xml:space="preserve">
+    <value>Open the project folder</value>
+    <comment>Title for the folder browser to open the project folder.</comment>
+  </data>
+  <data name="NeutralLanguageFile_Caption" xml:space="preserve">
+    <value>(Neutral)</value>
+    <comment>Caption for the neutral file</comment>
+  </data>
+  <data name="OpenProject_Tooltip" xml:space="preserve">
+    <value>Open a folder project (Ctrl+O)</value>
+    <comment>Tooltip for the "Open project" UI element</comment>
+  </data>
+  <data name="Open_Caption" xml:space="preserve">
+    <value>Open</value>
+    <comment>Caption for "Open" UI element</comment>
+  </data>
+  <data name="ProjectExplorer_Caption" xml:space="preserve">
+    <value>Project</value>
+    <comment>Caption for the project explorer</comment>
+  </data>
+  <data name="ShowError_DefaultTitle" xml:space="preserve">
+    <value>Error</value>
+    <comment>Default title for the ShowError dialog.</comment>
+  </data>
+  <data name="TransGroup_Extension_Caption" xml:space="preserve">
+    <value>Extension {0}</value>
+    <comment>Caption for an extension group. {0} is the name of the extension.</comment>
+  </data>
+  <data name="TransGroup_SmallBasicLibrary_Caption" xml:space="preserve">
+    <value>Small Basic Library</value>
+    <comment>Caption for the "SmallBasicLibrary" group</comment>
+  </data>
+  <data name="TransGroup_SmallBasic_Caption" xml:space="preserve">
+    <value>Small Basic</value>
+    <comment>Caption for the "SmallBasic" group</comment>
+  </data>
+  <data name="UnknownLanguageFile_Caption" xml:space="preserve">
+    <value>Unknown language : {0}</value>
+    <comment>Caption for the unknown language file. {0} is the language code.</comment>
   </data>
 </root>

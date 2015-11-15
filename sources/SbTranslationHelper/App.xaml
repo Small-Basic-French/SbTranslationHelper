@@ -2,8 +2,15 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:SbTranslationHelper"
+             xmlns:converters="clr-namespace:SbTranslationHelper.Converters"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <!-- Converters -->
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+        
+        <!-- Global -->
+        <local:ServiceLocator x:Key="Locator" />
+        
     </Application.Resources>
 </Application>
