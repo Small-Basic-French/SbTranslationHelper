@@ -56,7 +56,7 @@ namespace SbTranslationHelper.Model
                     {
                         tValue = new TranslationFileValue
                         {
-                            ReferenceGroup = nValue.ReferenceKey,
+                            ReferenceGroup = nValue.ReferenceGroup,
                             ReferenceCode = nValue.ReferenceCode,
                             Description = nValue.Description
                         };
@@ -66,6 +66,15 @@ namespace SbTranslationHelper.Model
                 TranslationContentValue cValue = new TranslationContentValue(this, nValue, tValue);
                 Content.Add(cValue);
             }
+        }
+
+        /// <summary>
+        /// Save the content
+        /// </summary>
+        public bool SaveContent(bool backupExistingFile)
+        {
+            if (_TranslationsFileContent == null) return false;
+            return _TranslationsFileContent.SaveContent(backupExistingFile);
         }
 
         /// <summary>

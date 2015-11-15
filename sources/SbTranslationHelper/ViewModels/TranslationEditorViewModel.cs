@@ -21,6 +21,10 @@ namespace SbTranslationHelper.ViewModels
         {
             this.Translations = new ObservableCollection<TranslationViewModel>();
             this.File = file;
+            SaveCommand = new RelayCommand(
+                async () => await SaveAsync(),
+                () => IsDirty
+                );
             MoveToPreviousTranslationCommand = new RelayCommand(
                 () => MoveToPreviousTranslation(),
                 () =>
@@ -57,22 +61,6 @@ namespace SbTranslationHelper.ViewModels
                     {
                         this.Translations.Add(new TranslationViewModel(this, trans));
                     }
-                    //var translations = await Task.Run(() =>
-                    //{
-                    //    return grp.ReadFile(this.File.File.File).ToList();
-                    //});
-                    //foreach (var trans in translations)
-                    //{
-                    //    this.Translations.Add(new TranslationViewModel
-                    //    {
-                    //        Editor = this,
-                    //        ReferenceGroup = trans.ReferenceGroup,
-                    //        ReferenceCode = trans.ReferenceCode,
-                    //        Description = trans.Description,
-                    //        NeutralValue = trans.NeutralValue,
-                    //        TranslatedValue = trans.Translation
-                    //    });
-                    //}
                 }
                 CurrentTranslation = Translations.FirstOrDefault();
                 IsDirty = false;
@@ -89,12 +77,13 @@ namespace SbTranslationHelper.ViewModels
         /// <returns></returns>
         public async Task SaveAsync()
         {
+            if (TranslationContentData == null || TranslationContentData.TranslationsFile == null)
+                return;
             if (IsBusy) return;
             IsBusy = true;
             try
             {
-                // TODO Save the content
-                await Task.Delay(1000);
+                await Task.Run(() => TranslationContentData.SaveContent(true));
                 IsDirty = false;
             }
             finally
@@ -167,6 +156,11 @@ namespace SbTranslationHelper.ViewModels
             internal set { SetProperty(ref _IsDirty, value, () => IsDirty); }
         }
         private bool _IsDirty;
+
+        /// <summary>
+        /// Command to save the content
+        /// </summary>
+        public RelayCommand SaveCommand { get; private set; }
 
         /// <summary>
         /// Command to move to the previous translation

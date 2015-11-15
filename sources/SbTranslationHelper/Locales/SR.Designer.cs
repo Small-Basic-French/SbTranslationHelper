@@ -115,6 +115,15 @@ namespace SbTranslationHelper.Locales {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Can&apos;t write &apos;{0}&apos; file type..
+        /// </summary>
+        public static string Error_CantWriteFileType {
+            get {
+                return ResourceManager.GetString("Error_CantWriteFileType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à File not found in the group..
         /// </summary>
         public static string Error_FileNotFoundInGroup {

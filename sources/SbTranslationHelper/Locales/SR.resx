@@ -141,6 +141,10 @@
     <value>Can't read '{0}' file type.</value>
     <comment>Error when loading a file not supported by the project.</comment>
   </data>
+  <data name="Error_CantWriteFileType" xml:space="preserve">
+    <value>Can't write '{0}' file type.</value>
+    <comment>Error when writing a file not supported by the project.</comment>
+  </data>
   <data name="Error_FileNotFoundInGroup" xml:space="preserve">
     <value>File not found in the group.</value>
     <comment>Error when a file is not find in a group.</comment>

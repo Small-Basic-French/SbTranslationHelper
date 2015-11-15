@@ -41,7 +41,18 @@ namespace SbTranslationHelper.Model
         public void LoadContent()
         {
             Content.Clear();
-            Content.AddRange(TranslationReader.ReadFile(File, this.Group));
+            Content.AddRange(TranslationsHelper.ReadFile(File, this.Group));
+        }
+
+        /// <summary>
+        /// Save the content
+        /// </summary>
+        public bool SaveContent(bool backupExistingFile)
+        {
+            // If neutral we don't save data
+            if (File.IsNeutral) return false;
+            // Write the content
+            return TranslationsHelper.WriteFile(File, this.Group, Content, backupExistingFile);
         }
 
         /// <summary>

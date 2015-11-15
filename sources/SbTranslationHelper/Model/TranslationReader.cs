@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Resources;
@@ -14,7 +15,7 @@ namespace SbTranslationHelper.Model
     /// <summary>
     /// Translation read helpers
     /// </summary>
-    public static class TranslationReader
+    public static class TranslationsHelper
     {
 
         /// <summary>
@@ -131,6 +132,100 @@ namespace SbTranslationHelper.Model
             if (String.Equals("xml", file.FileType, StringComparison.OrdinalIgnoreCase))
                 return ReadXmlDocFile(file.File);
             throw new ArgumentException(Locales.SR.Error_CantReadFileType, file.FileType);
+        }
+
+        static void BackupFile(String file)
+        {
+            if (!File.Exists(file)) return;
+            String backup = file + ".bak";
+            if (File.Exists(backup))
+                File.Delete(backup);
+            File.Move(file, backup);
+        }
+
+        /// <summary>
+        /// Write the translations in a resource file
+        /// </summary>
+        public static void WriteResourceFile(TranslationFile file, IEnumerable<TranslationFileValue> translations)
+        {
+            XDocument xdoc = XDocument.Parse(Properties.Resources.BaseXmlResourceFile);
+            foreach (var trans in translations)
+            {
+                var xTrans = new XElement(
+                    "data",
+                    new XAttribute("name", trans.ReferenceCode),
+                    new XAttribute(XNamespace.Xml + "space", "preserve"),
+                    new XElement("value", trans.Translation)
+                    );
+                if (!String.IsNullOrWhiteSpace(trans.Description))
+                    xTrans.Add(new XElement("comment", trans.Description));
+                xdoc.Root.Add(xTrans);
+            }
+            xdoc.Save(file.File);
+        }
+
+        /// <summary>
+        /// Write the translations in a XmlDoc file
+        /// </summary>
+        public static void WriteXmlDocFile(TranslationFile file, IEnumerable<TranslationFileValue> translations)
+        {
+            XElement members = new XElement("members");
+            XDocument xdoc = new XDocument(
+                new XDeclaration("1.0", "UTF-8", null),
+                new XElement("doc",
+                    new XElement("assembly", new XElement("name", file.FileName)),
+                    members
+                )
+                );
+            foreach (var gTranslations in translations.GroupBy(m=>m.ReferenceGroup))
+            {
+                XElement member = new XElement("member", new XAttribute("name", gTranslations.Key));
+                foreach (var trans in gTranslations)
+                {
+                    XElement xtrans;
+                    var parts = trans.ReferenceCode.Split('@');
+                    try
+                    {
+                        xtrans = XElement.Parse(String.Format("<{0}>{1}</{0}>", parts[0], trans.Translation));
+                    }
+                    catch {
+                        xtrans = new XElement(parts[0], trans.Translation);
+                    }
+                    for (int i = 1; i < parts.Length; i++)
+                    {
+                        var aparts = parts[1].Split(new char[] { ':' }, 2);
+                        xtrans.Add(new XAttribute(aparts[0], aparts[1]));
+                    }
+                    member.Add(xtrans);
+                }
+                members.Add(member);
+            }
+            xdoc.Save(file.File);
+        }
+
+        /// <summary>
+        /// Write the translation in a file
+        /// </summary>
+        public static bool WriteFile(TranslationFile file, String group, IEnumerable<TranslationFileValue> values, bool backupExistingFile)
+        {
+            if (file == null) return false;
+            if (String.Equals("dll", file.FileType, StringComparison.OrdinalIgnoreCase))
+                return false;
+            if (String.Equals("exe", file.FileType, StringComparison.OrdinalIgnoreCase))
+                return false;
+            if (String.Equals("resx", file.FileType, StringComparison.OrdinalIgnoreCase))
+            {
+                if (backupExistingFile) BackupFile(file.File);
+                WriteResourceFile(file, values);
+                return true;
+            }
+            if (String.Equals("xml", file.FileType, StringComparison.OrdinalIgnoreCase))
+            {
+                if (backupExistingFile) BackupFile(file.File);
+                WriteXmlDocFile(file, values);
+                return true;
+            }
+            throw new ArgumentException(Locales.SR.Error_CantWriteFileType, file.FileType);
         }
 
     }

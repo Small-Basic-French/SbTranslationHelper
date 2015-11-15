@@ -25,6 +25,7 @@
         <KeyBinding Command="{Binding MoveToNextTranslationCommand}" Gesture="F8" />
         <KeyBinding Command="{Binding MoveToPreviousTranslationCommand}" Gesture="Alt+Left" />
         <KeyBinding Command="{Binding MoveToNextTranslationCommand}" Gesture="Alt+Right" />
+        <KeyBinding Command="{Binding SaveCommand}" Gesture="Ctrl+S"/>
     </UserControl.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -128,6 +129,7 @@
             </StackPanel>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Save" Command="{Binding SaveCommand}" />
                 <Button Content="Previous" Command="{Binding MoveToPreviousTranslationCommand}" />
                 <Button Content="Next" Command="{Binding MoveToNextTranslationCommand}" />
             </StackPanel>
